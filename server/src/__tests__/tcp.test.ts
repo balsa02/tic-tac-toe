@@ -64,33 +64,37 @@ test("tcp server test with client connect", async () => {
     let server = new tcp.Server(config, () => new TestSession(logger, sessions));
 
     await server.start();
-    const msg:Array<string> = await Promise.all([
+
+    let answer = '';
+    let request = '';
+
+    await Promise.all([
         new Promise((resolve, reject) => {
             sessions.onPush( (session) => {
-                session.messageReceiver = (msg) => resolve(msg);
+                session.messageReceiver = (msg) => {request = msg; resolve()};
+                session.sendMessage("Hello from Server");
             });
         }),
         new Promise((resolve, reject) => {
             client.connect(config.port, config.host, () => {
                 logger.info('Client connected');
-                client.write("Hello From Client\r\n.\n");
+                client.write("Hello From Client\r\n.\n", () => resolve());
+            })
+            .on('data', (data) => {
+                logger.info(`Client received msg:${data.toString()}`);
+                answer = data.toString();
+            })
+            .on('end', () => {
                 resolve();
+            })
+            .write("Hello From Client\r\n.\n", () => {
+                client.end();
             });
         }),
     ]);
-    if (sessions.length > 0) { 
-        sessions[0].sendMessage("Hello from Server");
-    } else {
-        throw("Missing session");
-    }
-    const msg2:string = await   new Promise((resolve, reject) => {
-                                client.on('data', (data) => {
-                                    logger.info(`Client received msg:${data.toString()}`);
-                                    resolve(data.toString());
-                                });
-                        });
+
     client.destroy();
     await server.stop();
-    expect(msg[0]+msg2).toBe("Hello From Client"+`Hello from Server\r\n`);
+    expect(request+answer).toBe("Hello From Client"+`Hello from Server\r\n`);
 });
 
