@@ -1,0 +1,44 @@
+{
+  "name": "tic-tac-toe server",
+  "version": "1.0.0",
+  "description": "A Simple Tic-Tac-Toe game server over ws and tcp",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "doc": "typedoc --out docs ./src"
+  },
+  "author": "Balazs Gal",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/hapi": "^18.4.0",
+    "@hapi/inert": "^5.2.2",
+    "@types/graphql": "^14.5.0",
+    "@types/hapi__hapi": "^18.2.5",
+    "@types/hapi__inert": "^5.2.0",
+    "@types/uuid": "^3.4.5",
+    "@types/winston": "^2.4.4",
+    "@types/ws": "^6.0.3",
+    "apollo-server": "^2.9.4",
+    "apollo-server-hapi": "^2.9.4",
+    "graphql": "^14.5.8",
+    "graphql-merge-resolvers": "^1.1.12",
+    "graphql-tag-pluck": "^0.8.5",
+    "graphql-tools": "^4.0.5",
+    "hapi-good-winston": "^3.0.0",
+    "i": "^0.3.6",
+    "merge-graphql-schemas": "^1.7.0",
+    "npm": "^6.11.3",
+    "ts-stream": "^2.0.1",
+    "uuid": "^3.3.3",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.8",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
+    "typedoc": "^0.15.0",
+    "typescript": "^3.6.3"
+  }
+}

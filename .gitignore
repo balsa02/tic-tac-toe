@@ -1,17 +1,24 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/webclient/node_modules
-/server/node_modules
+/webclient/node_modules/
+/server/node_modules/
 /server/.pnp
 /server/.pnp.js
+
+/server/package-lock.json
+/webclient/package-lock.json
+/server/docs
+/server/.vscode
+
 
 # testing
 /coverage
 
 # production
-/server/build
-/webclient/build
+/server/dist/
+/webclient/build/
+/webclient/public/
 
 # misc
 .DS_Store
