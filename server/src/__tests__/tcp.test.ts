@@ -71,14 +71,16 @@ test("tcp server test with client connect", async () => {
     await Promise.all([
         new Promise((resolve, reject) => {
             sessions.onPush( (session) => {
-                session.messageReceiver = (msg) => {request = msg; resolve()};
+                session.messageReceiver = (msg) => {
+                    request = msg;
+                    resolve()
+                };
                 session.sendMessage("Hello from Server");
             });
         }),
         new Promise((resolve, reject) => {
             client.connect(config.port, config.host, () => {
                 logger.info('Client connected');
-                client.write("Hello From Client\r\n.\n", () => resolve());
             })
             .on('data', (data) => {
                 logger.info(`Client received msg:${data.toString()}`);
