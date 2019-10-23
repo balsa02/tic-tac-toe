@@ -1,0 +1,54 @@
+import { gql, PubSubEngine } from "apollo-server";
+import { Participant, Session } from "../data";
+import {Context} from "../schema";
+import {Match, MatchMaker} from "../services";
+
+export interface IContext {
+    session: Session;
+    pubsub: PubSubEngine;
+    match_maker: MatchMaker;
+}
+
+export const typeDefs = gql`
+    type Match {
+        id: String!
+        participants:[Participant!]!
+        board:[Sign]!
+        next: Participant!
+        winner: Participant
+        step(cell: Int!): Boolean!
+    }
+
+    type Query {
+        match: Match
+    }
+    type Mutation {
+        match: Match
+    }
+    type Subscription {
+        match: Match!
+    }
+`;
+
+export const resolvers = (): any => {
+    return {
+        Query: {
+            match: (_: undefined, __: undefined, ctx: Context): Promise<Match|null> => {
+                return ctx.match_maker.lease(ctx);
+            },
+        },
+        get Mutation() {
+            return this.Query;
+        },
+        Subscription: {
+            match: {
+                subscribe: (_: undefined, __: undefined, ctx: Context) => {
+                    if (ctx.session.matchId) {
+                        return ctx.pubsub.asyncIterator("match." + ctx.session.matchId);
+                    }
+                    return { value: undefined, done: true };
+                },
+            },
+        },
+    };
+};

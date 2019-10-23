@@ -1,0 +1,18 @@
+{
+    "extends": "tslint:recommended",
+    "rules": {
+        "interface-name": false,
+        "no-empty-interface": false,
+        "no-floating-promises": true,
+        "object-literal-sort-keys": false,
+        "ordered-imports": false,
+        "max-classes-per-file": [false, 1],
+        "max-line-length": [true, 160],
+        "variable-name": {
+            "options": [
+                "allow-leading-underscore",
+                "allow-snake-case"
+            ]
+        }
+    }
+}
