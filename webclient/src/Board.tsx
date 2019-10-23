@@ -68,7 +68,7 @@ export const Board = (props: BoardProps) => {
                 </Grid>
             </Paper>
             <Button onClick={props.onNewGame} variant="contained" color="primary" className={classes.button}>
-                New Game
+                New Match
             </Button>
         </Container>
     );
