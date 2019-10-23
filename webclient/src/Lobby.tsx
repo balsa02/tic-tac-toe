@@ -68,7 +68,7 @@ export const Lobby: React.FC = () => {
     return (
         <List>
         {(loading || !data) ?  <CircularProgress/> : data.lobby.list.map((user, index) => (
-          <LobbyItem key={user.userName} userName={user.userName} />
+          (user.userName !== ctx.userName) && <LobbyItem key={user.userName} userName={user.userName} />
         ))}
       </List>
     )
