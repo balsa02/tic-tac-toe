@@ -7,6 +7,7 @@ export interface Match {
     participants: Participant[];
     board: Array<Sign|null>;
     next: Participant;
+    ended: boolean;
     winner?: Participant;
     step(args: {cell: number}, ctx: Context): Promise<boolean>;
     join(user: User, role: ParticipantRole, ctx: Context): Promise<boolean>;
