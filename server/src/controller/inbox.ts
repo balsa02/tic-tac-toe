@@ -36,7 +36,7 @@ export const resolvers = (): any => {
                         let inMatch = false;
                         if (ctx.session.matchId) {
                             const match = await ctx.match_maker.lease(ctx);
-                            if(match && match.participants.length > 1) {
+                            if (match && !match.ended && match.participants.length > 1) {
                                 inMatch = true;
                             }
                         }
