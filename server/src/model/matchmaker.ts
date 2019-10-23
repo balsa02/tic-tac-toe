@@ -79,6 +79,10 @@ export class MatchMaker {
         }
 
         if (ctx.session.matchId) {
+            const match = await this.lease(ctx);
+            if (match && match.ended) {
+                throw new UserInputError("The match ended.");
+            }
             const invite: Invite = {
                 from: ctx.session.user,
                 matchId: ctx.session.matchId,

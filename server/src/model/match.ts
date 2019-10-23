@@ -44,6 +44,9 @@ export class Match {
      */
     public async join(user: User, role: ParticipantRole, ctx: Context): Promise<boolean> {
         const participant: Participant = { user, sign: null, role };
+        if (this.ended) {
+            throw new UserInputError("The match ended.");
+        }
         if (role === ParticipantRole.Player) {
             participant.sign = Sign.O;
             let playerCount = 0;
@@ -53,7 +56,7 @@ export class Match {
                 }
             });
             if (playerCount > 1) {
-                throw new UserInputError("The match has already 2 player");
+                throw new UserInputError("The match has already 2 player.");
             }
             if (this.next.sign === participant.sign ) {
                 this.next = participant;
