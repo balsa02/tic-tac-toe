@@ -28,12 +28,14 @@ export class Match {
         ];
     public next: Participant;
     public winner?: Participant;
+    public ended: boolean;
     private participantsMap: Map<string, Participant>;
 
     constructor(public id: string, user: User) {
         this.participantsMap = new Map();
         this.next = {user, sign: Sign.X, role: ParticipantRole.Player};
         this.participantsMap.set(user.userName, this.next);
+        this.ended = false;
     }
 
     /**
@@ -41,9 +43,9 @@ export class Match {
      * this intended to be called by [[MatchMaker]], do not expose this to the user
      */
     public async join(user: User, role: ParticipantRole, ctx: Context): Promise<boolean> {
-        let sign: Sign | null = null;
+        const participant: Participant = { user, sign: null, role };
         if (role === ParticipantRole.Player) {
-            sign = Sign.O;
+            participant.sign = Sign.O;
             let playerCount = 0;
             this.participantsMap.forEach((value) => {
                 if (value.role === ParticipantRole.Player) {
@@ -53,9 +55,12 @@ export class Match {
             if (playerCount > 1) {
                 throw new UserInputError("The match has already 2 player");
             }
+            if (this.next.sign === participant.sign ) {
+                this.next = participant;
+            }
         }
         if (!this.participantsMap.get(user.userName)) {
-              this.participantsMap.set(user.userName, {user, sign, role});
+              this.participantsMap.set(user.userName, participant);
         }
         await this.users_exit_lobby(ctx);
         const topic = "match." + this.id;
@@ -107,6 +112,9 @@ export class Match {
             this.winner = this.participant_by_sign(winner);
             await this.end(ctx);
         }
+        if (this.no_step_left()) {
+            await this.end(ctx);
+        }
         // event the standing
         const topic = "match." + this.id;
         ctx.config.logger.debug("Publish match to pubsub topic:" + topic);
@@ -121,6 +129,7 @@ export class Match {
 
     // let the users to enter the lobby
     private async end(ctx: Context): Promise<void> {
+        this.ended = true;
         for (const participant of this.participantsMap.values()) {
             await ctx.lobby.entry_user(participant.user, ctx);
         }
@@ -162,5 +171,14 @@ export class Match {
             }
         }
         throw new UserInputError("Can't find the next player");
+    }
+
+    private no_step_left(): boolean {
+        for (const cell of this.board) {
+            if (!cell) {
+                return false;
+            }
+        }
+        return true;
     }
 }
