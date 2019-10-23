@@ -1,4 +1,4 @@
-import { gql} from "apollo-server";
+import { gql, AuthenticationError} from "apollo-server";
 import {Session} from "../data";
 import {Context} from "../schema";
 import {Lobby} from "../services";
@@ -35,7 +35,7 @@ export const resolvers = (): any => {
                     if (ctx.session.authenticated) {
                         return await ctx.lobby.iterator(ctx);
                     }
-                    return { value: undefined, done: true };
+                    throw new AuthenticationError("Please Login first");
                 },
             },
         },

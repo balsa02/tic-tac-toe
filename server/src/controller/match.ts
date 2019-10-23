@@ -1,4 +1,4 @@
-import { gql, PubSubEngine } from "apollo-server";
+import { gql, PubSubEngine, AuthenticationError, ApolloError } from "apollo-server";
 import { Participant, Session } from "../data";
 import {Context} from "../schema";
 import {Match, MatchMaker} from "../services";
@@ -46,7 +46,7 @@ export const resolvers = (): any => {
                     if (ctx.session.matchId) {
                         return ctx.pubsub.asyncIterator("match." + ctx.session.matchId);
                     }
-                    return { value: undefined, done: true };
+                    throw new ApolloError("No match found");
                 },
             },
         },
