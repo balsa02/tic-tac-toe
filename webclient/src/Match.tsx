@@ -255,13 +255,13 @@ export const MatchList = () => {
 
     return (
         <React.Fragment>
-        {match &&
+        {match && match.participants.length > 1 &&
             <ListItem key="next">
                     <ListItemIcon>{match.winner ? <InsertEmoticonIcon/> : <PlayArrowIcon/>}</ListItemIcon>
                     <ListItemText primary={match.winner ? match.winner.user.userName :match.next.user.userName} />
             </ListItem>
         }  
-        {match && match.participants.map( (participant) => {
+        {match && match.participants.length > 1 && match.participants.map( (participant) => {
             return(
             <ListItem key={"match" + participant.user.userName}>
                 <ListItemIcon>{participant.sign ? <SignIcon player={participant.sign}/> : <VisibilityIcon/>}</ListItemIcon>
