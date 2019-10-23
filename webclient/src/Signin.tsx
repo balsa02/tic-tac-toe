@@ -95,6 +95,7 @@ export const Signin = (props: SigninProps) => {
             value={token}
             onChange={onChangeToken}
             fullWidth
+            multiline
           />
         </DialogContent>
         <DialogActions>

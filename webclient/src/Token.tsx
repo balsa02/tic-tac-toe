@@ -36,6 +36,7 @@ export const Token = (props: TokenProps) => {
             type="text"
             value={ctx.token}
             fullWidth
+            multiline
           />
         </DialogContent>
         <DialogActions>
