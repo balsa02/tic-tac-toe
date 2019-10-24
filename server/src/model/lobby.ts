@@ -87,9 +87,11 @@ export class Lobby {
         }
         return true;
     }
+
     private async notify(ctx: Context): Promise<void> {
         await ctx.pubsub.publish("lobby", {lobby: this});
     }
+    
     private async sweeper(ctx: Context): Promise<void> {
         try {
             ctx.config.logger.debug("Lobby sweeper task called");
