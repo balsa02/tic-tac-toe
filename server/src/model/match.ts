@@ -57,7 +57,7 @@ export class Match {
             if (playerCount > 1) {
                 throw new UserInputError("The match has already 2 player.");
             }
-            if (this.next.sign === participant.sign ) {
+            if (this.next.sign === participant.sign) {
                 this.next = participant;
             }
         }
@@ -74,33 +74,14 @@ export class Match {
         return this.participantsMap.delete(ctx.session.user.userName);
     }
 
+
     // public entry point
     public async step(args: {cell: number}, ctx: Context): Promise<boolean> {
-        if (this.winner) {
-            ctx.config.logger.debug("The game ended");
-            throw new UserInputError(`The game ended`);
-        }
-
-        if (ctx.session.user.userName !== this.next.user.userName) {
-            const msg = `The next user is ${this.next.user.userName}`;
-            ctx.config.logger.debug(msg);
-            throw new UserInputError(msg);
-        }
+        this.validate_step(args, ctx);
 
         const participant = this.participantsMap.get(ctx.session.user.userName);
         if (!participant) {
             const msg = `Unknown user ${ctx.session.user.userName}`;
-            ctx.config.logger.debug(msg);
-            throw new UserInputError(msg);
-        }
-
-        if (args.cell >= this.board.length || args.cell < 0) {
-            const msg = `The cell ${args.cell} position is out of table`;
-            ctx.config.logger.debug(msg);
-            throw new UserInputError(msg);
-        }
-        if (this.board[args.cell]) {
-            const msg = `The table cell ${args.cell} is already used`;
             ctx.config.logger.debug(msg);
             throw new UserInputError(msg);
         }
@@ -123,6 +104,32 @@ export class Match {
         await ctx.pubsub.publish(topic, {match: this});
         return true;
     }
+
+    private validate_step(args: {cell: number}, ctx: Context) {
+        if (this.winner) {
+            ctx.config.logger.debug("The game ended");
+            throw new UserInputError(`The game ended`);
+        }
+
+        if (ctx.session.user.userName !== this.next.user.userName) {
+            const msg = `The next user is ${this.next.user.userName}`;
+            ctx.config.logger.debug(msg);
+            throw new UserInputError(msg);
+        }
+
+        if (args.cell >= this.board.length || args.cell < 0) {
+            const msg = `The cell ${args.cell} position is out of table`;
+            ctx.config.logger.debug(msg);
+            throw new UserInputError(msg);
+        }
+
+        if (this.board[args.cell]) {
+            const msg = `The table cell ${args.cell} is already used`;
+            ctx.config.logger.debug(msg);
+            throw new UserInputError(msg);
+        }
+    }
+
     private async users_exit_lobby(ctx: Context) {
         for (const participant of this.participantsMap.values()) {
             await ctx.lobby.exit_user(participant.user, ctx, true);
