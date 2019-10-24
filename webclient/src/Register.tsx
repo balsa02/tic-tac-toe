@@ -30,7 +30,7 @@ export const Register = (props: RegisterProps) => {
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
 
-    const [register, { loading, error }] = useMutation(
+    const [register, { error }] = useMutation(
       REGISTER_MUTATION,
         {
             onCompleted({ auth }) {

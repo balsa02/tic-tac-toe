@@ -31,7 +31,6 @@ export const Invite = (props: InviteProps) => {
             onCompleted({ match_maker }) {
                 console.log("Token received");
                 console.log(match_maker);
-                const _token = match_maker.invite;
                 ctx.sendNotify({message: "Invite sent", variant: "success"});
                 // props.onClose();
             },

@@ -31,7 +31,7 @@ export const Password = (props: PasswordProps) => {
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
 
-    const [register, { loading, error }] = useMutation(
+    const [register, { error }] = useMutation(
       PASSWORD_MUTATION,
         {
             onCompleted({ auth }) {
