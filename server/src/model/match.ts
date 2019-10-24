@@ -74,7 +74,6 @@ export class Match {
         return this.participantsMap.delete(ctx.session.user.userName);
     }
 
-
     // public entry point
     public async step(args: {cell: number}, ctx: Context): Promise<boolean> {
         this.validate_step(args, ctx);
