@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useState } from 'react';
+import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { useStateContext } from './ContextProvider';
 import Dialog from '@material-ui/core/Dialog';

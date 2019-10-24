@@ -30,7 +30,7 @@ export const Login = (props: LoginProps) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
-    const [login, { loading, error }] = useMutation(
+    const [login, { error }] = useMutation(
         LOGIN_MUTATION,
         {
             onCompleted({ auth }) {

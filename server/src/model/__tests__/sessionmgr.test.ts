@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
-import winston from "winston";
-import {Session, User} from "../../data";
+import { User } from "../../data";
 import * as global from "../../global";
-import {Config, Context} from "../../schema";
+import { Context } from "../../schema";
 import * as sessionmgr from "../sessionmgr";
 
 const jwt_sign = async (user: User, ctx: Context): Promise<string> => {

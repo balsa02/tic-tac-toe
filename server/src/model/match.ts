@@ -1,7 +1,6 @@
 import {PubSubEngine, UserInputError} from "apollo-server";
 import { Participant, ParticipantRole, Session, User, Sign } from "../data";
 import {Context} from "../schema";
-import { globalCtx } from "src/global";
 
 export interface IContext {
     pubsub: PubSubEngine;

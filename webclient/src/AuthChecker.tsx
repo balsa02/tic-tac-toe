@@ -1,7 +1,7 @@
 import { useStateContext } from "./ContextProvider";
 import gql from "graphql-tag";
 import { useSubscription, useQuery } from "@apollo/react-hooks";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 const AUTHENTICATED_SUBSCRIPTION = gql `
 subscription authenticated($interval: Int!){

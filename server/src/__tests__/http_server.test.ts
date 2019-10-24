@@ -3,7 +3,7 @@ import {ApolloClient} from "apollo-client";
 import { WebSocketLink } from "apollo-link-ws";
 import gql from "graphql-tag";
 import {GraphQLHttpServer} from "../http_server";
-import {config, logger, schema, session_ctx} from "./common_server";
+import {config, schema, session_ctx} from "./common_server";
 
 test("GraphQL HTTP server with client/server chat over ws", async () => {
     const httpSrv = new GraphQLHttpServer(config, schema, session_ctx);

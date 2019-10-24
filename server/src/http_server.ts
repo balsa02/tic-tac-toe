@@ -5,7 +5,6 @@ import {GraphQLSchema} from "graphql";
 import {ConnectionContext} from "subscriptions-transport-ws";
 import WebSocket from "ws";
 
-import { string } from "@hapi/joi";
 import winston from "winston";
 
 export interface IConfig {

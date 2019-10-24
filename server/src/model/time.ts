@@ -1,4 +1,4 @@
-import { gql, PubSubEngine} from "apollo-server";
+import {PubSubEngine} from "apollo-server";
 import {Session} from "../data";
 import {Context} from "../schema";
 

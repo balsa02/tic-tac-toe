@@ -57,9 +57,9 @@ export const Board = (props: BoardProps) => {
             <Paper>
                 <Grid container spacing={0}>
                     {[0,3,6].map((index) => (
-                        <Grid container item xs={12} spacing={0}>
+                        <Grid container key={index} item xs={12} spacing={0}>
                         {myData.slice(index,index+3).map((sign) => (
-                                <Grid item xs={4}>
+                                <Grid item key={index} xs={4}>
                                     <Box id={`${index++}`} border={1} onClick={props.onClick} className={classes.arc}><svg viewBox="0 0 1 1"><SignIcon player={sign}/></svg></Box>
                                 </Grid>
                         ))}

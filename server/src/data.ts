@@ -1,5 +1,4 @@
 import { gql } from "apollo-server";
-import { number } from "@hapi/joi";
 
 export const typeDefs = gql`
     type Ping {

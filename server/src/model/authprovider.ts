@@ -38,7 +38,7 @@ export class AuthProvider {
         if (args.userName.length < 3) {
             throw new UserInputError("Short username");
         }
-        if (args.userName.length < 3 && args.password1.length < 3) {
+        if (args.password1.length < 3) {
             throw new UserInputError("Short password");
         }
         const user: User = {userName: args.userName};

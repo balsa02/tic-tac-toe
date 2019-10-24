@@ -16,7 +16,7 @@ Promise.all([
 .catch((error: Error) => global.logger.info(error));
 
 const stop = () => {
-    const ret = Promise.all([
+    const _ret = Promise.all([
         tcp_srv.stop(),
         http_srv.stop(),
     ])

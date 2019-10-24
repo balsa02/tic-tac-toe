@@ -1,4 +1,3 @@
-import { string } from "@hapi/joi";
 import { Participant, ParticipantRole, User, Sign } from "./data";
 import {Context} from "./schema";
 

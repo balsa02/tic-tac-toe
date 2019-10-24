@@ -1,5 +1,5 @@
-import { gql, PubSubEngine, AuthenticationError, ApolloError } from "apollo-server";
-import { Participant, Session } from "../data";
+import { gql, PubSubEngine, ApolloError } from "apollo-server";
+import { Session } from "../data";
 import {Context} from "../schema";
 import {Match, MatchMaker} from "../services";
 

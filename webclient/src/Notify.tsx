@@ -94,12 +94,6 @@ const useStyles1 = makeStyles((theme: Theme) => ({
     },
 }));
 
-const useStyles2 = makeStyles((theme: Theme) => ({
-    margin: {
-      margin: theme.spacing(1),
-    },
-}));
-
 export interface Props {
     className?: string;
     message?: string;

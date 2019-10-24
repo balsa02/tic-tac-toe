@@ -1,5 +1,5 @@
 import { gql, PubSubEngine } from "apollo-server";
-import { ParticipantRole, Session } from "../data";
+import { Session } from "../data";
 import {Context} from "../schema";
 import {MatchMaker} from "../services";
 
