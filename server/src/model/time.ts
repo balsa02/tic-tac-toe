@@ -1,11 +1,12 @@
 import {PubSubEngine} from "apollo-server";
 import {Session} from "../data";
-import {Context} from "../schema";
 
 export interface IContext {
     pubsub: PubSubEngine;
     session: Session;
 }
+
+export type Context = IContext;
 
 export class Time {
 

@@ -1,12 +1,12 @@
-import { UserInputError, AuthenticationError } from "apollo-server";
+import { UserInputError, AuthenticationError, PubSub } from "apollo-server";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {Session} from "../data";
 import {User} from "../data";
-import {Config, Context} from "../schema";
 import { SessionMgr } from "../services";
 import uuidv4 from "uuid/v4";
 import { withCancel } from "../subscription";
+import { SessionMgrContext } from "../schema";
 
 export interface IConfig {
     secret: string;
@@ -16,8 +16,11 @@ export interface IConfig {
 export interface IContext {
     session: Session;
     session_manager: SessionMgr;
-    config: Config;
+    config: IConfig;
+    pubsub: PubSub;
 }
+
+export type Context = IContext & SessionMgrContext;
 
 /** TODO Whoami, change password */
 export class AuthProvider {

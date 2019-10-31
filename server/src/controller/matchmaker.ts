@@ -1,6 +1,6 @@
 import { gql, PubSubEngine } from "apollo-server";
 import { Session } from "../data";
-import {Context} from "../schema";
+import {MatchMakerContext} from "../schema";
 import {MatchMaker} from "../services";
 
 export interface IContext {
@@ -8,6 +8,8 @@ export interface IContext {
     pubsub: PubSubEngine;
     match_maker: MatchMaker;
 }
+
+export type Context = IContext & MatchMakerContext;
 
 export const typeDefs = gql`
     type MatchMaker {

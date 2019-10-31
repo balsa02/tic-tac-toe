@@ -1,11 +1,21 @@
 import {PubSubEngine, UserInputError} from "apollo-server";
 import { Participant, ParticipantRole, Session, User, Sign } from "../data";
-import {Context} from "../schema";
+import winston from "winston";
+import { Lobby } from "../services";
+import { LobbyContext } from "../schema";
+
+export interface IConfig {
+    logger: winston.Logger;
+}
 
 export interface IContext {
     pubsub: PubSubEngine;
     session: Session;
+    config: IConfig;
+    lobby: Lobby;
 }
+
+export type Context = IContext & LobbyContext;
 
 export class Match {
 

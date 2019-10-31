@@ -1,24 +1,19 @@
 import {Ping, Session, User} from "../data";
-import {Config, Context} from "../schema";
 import { PubSub } from "./pubsub";
 import { AuthenticationError } from "apollo-server";
 import winston from "winston";
 
 export interface IConfig {
     logger: winston.Logger;
-
 }
 
 export interface IContext {
     pubsub: PubSub;
     session: Session;
-    config: Config;
+    config: IConfig;
 }
 
-export interface IGolbalContext {
-    pubsub: PubSub;
-    config: Config;
-}
+export type Context = IContext;
 
 export class Lobby {
     private users: Map<string, User>;
@@ -91,7 +86,7 @@ export class Lobby {
     private async notify(ctx: Context): Promise<void> {
         await ctx.pubsub.publish("lobby", {lobby: this});
     }
-    
+
     private async sweeper(ctx: Context): Promise<void> {
         try {
             ctx.config.logger.debug("Lobby sweeper task called");

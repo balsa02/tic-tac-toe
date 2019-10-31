@@ -27,3 +27,5 @@ export const schema = (): GraphQLSchema => {
         resolvers: resolvers(),
     });
 };
+
+export * from "./model/model";

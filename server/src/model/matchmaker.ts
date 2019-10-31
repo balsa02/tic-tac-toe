@@ -2,20 +2,24 @@ import {AuthenticationError, PubSubEngine, UserInputError} from "apollo-server";
 import jwt from "jsonwebtoken";
 import uuidv4 from "uuid/v4";
 import { Invite, InviteData, ParticipantRole, Session, User, Reject } from "../data";
-import {Config, Context} from "../schema";
 import {Match, Lobby} from "../services";
+import winston from "winston";
+import { LobbyContext } from "../schema";
 
 export interface IConfig {
     secret: string;
     tokenExpires: string;
+    logger: winston.Logger;
 }
 
 export interface IContext {
     pubsub: PubSub;
     session: Session;
-    config: Config;
+    config: IConfig;
     lobby: Lobby;
 }
+
+export type Context = IContext & LobbyContext;
 
 interface PubSub extends PubSubEngine {
     publish_with_result(triggerName: string, payload: any): Promise<boolean>;
@@ -24,7 +28,7 @@ interface PubSub extends PubSubEngine {
 export class MatchMaker {
     private matches: Map<string, Match>;
 
-    constructor(private match_factory: <Ctx>(id: string, user: User) => Promise<Match>) {
+    constructor(private match_factory: (id: string, user: User) => Promise<Match>) {
         this.matches = new Map();
     }
 

@@ -1,11 +1,13 @@
 import { gql} from "apollo-server";
 import * as time from "../model/time";
-import {Context} from "../schema";
+import {TimeContext} from "../schema";
 import {withCancel} from "../subscription";
 import uuidv4 from "uuid/v4";
 
 export interface IContext {
 }
+
+export type Context = IContext & TimeContext;
 
 export const typeDefs = gql`
     type Time {

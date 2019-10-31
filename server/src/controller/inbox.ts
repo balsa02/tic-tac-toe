@@ -1,12 +1,16 @@
 import { gql, PubSubEngine, AuthenticationError} from "apollo-server";
 import {Invite, Ping, Session, Reject} from "../data";
-import {Context} from "../schema";
+import {LobbyContext, MatchMakerContext} from "../schema";
 import { withCancel } from "../subscription";
+import { MatchMaker } from "../services";
 
 export interface IContext {
     session: Session;
     pubsub: PubSubEngine;
+    match_maker: MatchMaker;
 }
+
+export type Context = IContext & LobbyContext & MatchMakerContext;
 
 export const typeDefs = gql`
     union Message = Invite | Ping | Reject

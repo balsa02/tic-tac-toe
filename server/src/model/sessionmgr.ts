@@ -1,12 +1,11 @@
 import jwt from "jsonwebtoken";
 import winston from "winston";
 import { Session, User } from "../data";
-import {Config, Context} from "../schema";
 import { UserInputError } from "apollo-server";
 
 export interface IContext {
     session: Session;
-    config: Config;
+    config: IConfig;
 }
 
 export interface IConfig {
@@ -14,6 +13,8 @@ export interface IConfig {
     tokenExpires: string;
     logger: winston.Logger;
 }
+
+export type Context = IContext;
 
 /** Implement a session expire somehow */
 export class SessionMgr {

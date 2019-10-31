@@ -1,12 +1,14 @@
 import { gql, AuthenticationError} from "apollo-server";
 import {Session} from "../data";
-import {Context} from "../schema";
+import {LobbyContext} from "../schema";
 import {Lobby} from "../services";
 
 export interface IContext {
     session: Session;
     lobby: Lobby;
 }
+
+export type Context = IContext & LobbyContext;
 
 export const typeDefs = gql`
     type Lobby {

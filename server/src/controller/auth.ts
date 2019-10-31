@@ -1,10 +1,12 @@
 import {gql} from "apollo-server";
-import {Context} from "../schema";
+import {AuthContext} from "../schema";
 import {Auth} from "../services";
 
 export interface IContext {
     auth: Auth;
 }
+
+export type Context = IContext & AuthContext;
 
 export const typeDefs = gql`
     type Auth {
