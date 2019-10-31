@@ -1,11 +1,13 @@
 import * as authprovider from "./authprovider";
+import * as lobby from "./lobby";
 import * as match from "./match";
 import * as matchmaker from "./matchmaker";
 import * as sessionmgr from "./sessionmgr";
 import * as time from "./time";
-import * as lobby from "./lobby";
 
 export type Config =    authprovider.IConfig &
+                        lobby.IConfig &
+                        match.IConfig &
                         matchmaker.IConfig &
                         sessionmgr.IConfig;
 
