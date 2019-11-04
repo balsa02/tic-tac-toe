@@ -40,27 +40,10 @@ export class MatchMaker {
         const match = await this.match_factory(uuid, ctx.session.user);
         this.matches.set(uuid, match);
         await this.leave_match(ctx);
-        await ctx.lobby.entry(ctx);
+        await ctx.lobby.entry_user(ctx.session.user, ctx);
         ctx.config.logger.debug("set match id to user session" + match.id);
         ctx.session.matchId = match.id;
         return match;
-    }
-
-    /** Leave a [[Match]] and join the lobby. */
-    public async leave(_args: undefined, ctx: Context): Promise<boolean> {
-        await this.leave_match(ctx);
-        await ctx.lobby.entry(ctx);
-        return true;
-    }
-
-    public async leave_match(ctx: Context): Promise<boolean> {
-        this.authenticated(ctx);
-        const match = await this.lease(ctx);
-        if (match) {
-            await match.leave(ctx);
-        }
-        ctx.session.matchId = undefined;
-        return true;
     }
 
     public async lease(ctx: Context): Promise<Match|null> {
@@ -138,6 +121,16 @@ export class MatchMaker {
                 }
             }
         }
+        return true;
+    }
+
+    private async leave_match(ctx: Context): Promise<boolean> {
+        this.authenticated(ctx);
+        const match = await this.lease(ctx);
+        if (match) {
+            await match.leave(ctx);
+        }
+        ctx.session.matchId = undefined;
         return true;
     }
 
