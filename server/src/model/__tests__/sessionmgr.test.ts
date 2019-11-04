@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
-import { User } from "../../data";
+import { User, Session } from "../../data";
 import * as global from "../../global";
-import { Context } from "../../schema";
-import * as sessionmgr from "../sessionmgr";
+import {Context as SessionMgrContext} from "../sessionmgr";
+import { SessionMgr } from "../sessionmgr";
+import faker from "faker";
 
-const jwt_sign = async (user: User, ctx: Context): Promise<string> => {
+const jwt_sign = async (user: User, ctx: SessionMgrContext): Promise<string> => {
     return new Promise((resolve, reject) => {
         jwt.sign(Object.assign({}, user), ctx.config.secret, {expiresIn: ctx.config.tokenExpires}, (err, token) => {
             if (err) {
@@ -16,26 +17,44 @@ const jwt_sign = async (user: User, ctx: Context): Promise<string> => {
     });
 };
 
-test("SessionMgr store use on session", async () => {
-    const ctx = await global.session_ctx();
-    const user: User = new User("gal_b");
-    await ctx.session_manager.find_or_store(user, ctx);
-    expect(ctx.session.user).toBe(user);
-});
+const session_ctx = async (): Promise<SessionMgrContext> => {
+    const ctx = {
+        session: new Session(),
+        config: global.config,
+    };
+    ctx.config.logger.level = "info";
+    return ctx;
+};
 
-test("SessionMgr store use on session store", async () => {
-    const ctx = await global.session_ctx();
-    const user: User = new User("gal_b");
-    await ctx.session_manager.find_or_store(user, ctx);
-    const sessionMgr = ctx.session_manager as sessionmgr.SessionMgr;
-    expect(sessionMgr.sessions.get(user.userName)).toBe(ctx.session);
-});
+describe("SessionMgr", () => {
+    let ctx: SessionMgrContext;
+    const userName = faker.internet.userName();
+    const user: User = new User(userName);
+    const session_mgr = new SessionMgr();
+    const matchId = faker.random.uuid();
 
-test("SessionMgr store use token", async () => {
-    const ctx = await global.session_ctx();
-    const user: User = new User("gal_b");
-    const token = await jwt_sign(user, ctx);
-    const sessionMgr = ctx.session_manager as sessionmgr.SessionMgr;
-    await sessionMgr.use_token(token, ctx);
-    expect(sessionMgr.sessions.get(user.userName)).toBe(ctx.session);
+    beforeAll( async () => {
+        ctx = await session_ctx();
+    });
+
+    test("store new user", async () => {
+        await session_mgr.find_or_store(user, ctx);
+        expect(ctx.session.user).toBe(user);
+    });
+
+    test("find user", async () => {
+        ctx.session.matchId = matchId;
+        ctx.session = new Session();
+        await session_mgr.find_or_store(user, ctx);
+        expect(ctx.session.user).toEqual(user);
+        expect(ctx.session.matchId).toEqual(matchId);
+    });
+
+    test("use_token", async () => {
+        ctx.session = new Session();
+        const token = await jwt_sign(user, ctx);
+        const newUser = await session_mgr.use_token(token, ctx);
+        expect(ctx.session.user).toEqual(user);
+        expect(ctx.session.matchId).toEqual(matchId);
+    });
 });
