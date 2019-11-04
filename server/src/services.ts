@@ -37,9 +37,7 @@ export interface SessionMgr {
 
 export interface Lobby {
     list(_args: undefined, ctx: LobbyContext): Promise<User[]>;
-    entry(ctx: LobbyContext): Promise<void>;
     entry_user(user: User, ctx: LobbyContext): Promise<void>;
-    exit(ctx: LobbyContext): Promise<void>;
     exit_user(user: User, ctx: LobbyContext, force: boolean): Promise<void>;
-    iterator(ctx: LobbyContext): Promise<AsyncIterator<Lobby>>;
+    iterator(ctx: LobbyContext): Promise<AsyncIterator<{lobby: Lobby}>>;
 }
