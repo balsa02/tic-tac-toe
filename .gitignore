@@ -13,7 +13,7 @@
 
 
 # testing
-/coverage
+/server/coverage
 
 # production
 /server/dist/
