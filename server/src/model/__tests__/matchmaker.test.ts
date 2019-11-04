@@ -109,7 +109,7 @@ const reject = async (token: string, user1: FakeUser, user2: FakeUser, match: IM
 
 const join = async (user: FakeUser, token: string,  matchmaker: MatchMaker, ctx: Context): Promise<void> => {
     ctx.session.user = user.user;
-    const result = await matchmaker.join({token}, ctx);
+    await matchmaker.join({token}, ctx);
     const myMatch = await matchmaker.lease(ctx);
     expect(myMatch).toBeInstanceOf(Match);
     expect(myMatch!.id).toEqual(ctx.session.matchId);
