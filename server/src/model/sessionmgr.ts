@@ -18,7 +18,7 @@ export type Context = IContext;
 
 /** Implement a session expire somehow */
 export class SessionMgr {
-    public sessions: Map<string, Session>;
+    private sessions: Map<string, Session>;
 
     constructor() {
         this.sessions = new Map();
