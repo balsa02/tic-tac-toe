@@ -36,13 +36,6 @@ export class Lobby {
         return ctx.pubsub.asyncIterator("lobby");
     }
 
-    public async entry(ctx: Context): Promise<void> {
-        ctx.config.logger.debug("Lobby entry called");
-        this.authenticated(ctx);
-        ctx.config.logger.debug("Lobby entry called for user: " + ctx.session.user.userName);
-        return await this.entry_user(ctx.session.user, ctx);
-    }
-
     public async entry_user(user: User, ctx: Context): Promise<void> {
         ctx.config.logger.debug("Lobby entry_user called for user: " + user.userName);
         // start the sweeper task at the first user entry
@@ -56,13 +49,6 @@ export class Lobby {
             this.users.set(user.userName, user);
             await this.notify(ctx);
         }
-    }
-
-    public async exit(ctx: Context): Promise<void> {
-        ctx.config.logger.debug("Lobby exit called");
-        this.authenticated(ctx);
-        ctx.config.logger.debug("Lobby exit called for user: " + ctx.session.user.userName);
-        return await this.exit_user(ctx.session.user, ctx, false);
     }
 
     public async exit_user(user: User, ctx: Context, force: boolean): Promise<void> {
