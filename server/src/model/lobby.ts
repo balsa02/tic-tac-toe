@@ -32,7 +32,7 @@ export class Lobby {
         return Array.from<User>(this.users.values());
     }
 
-    public async iterator(ctx: Context): Promise<AsyncIterator<Lobby>> {
+    public async iterator(ctx: Context): Promise<AsyncIterator<{lobby: Lobby}>> {
         return ctx.pubsub.asyncIterator("lobby");
     }
 
