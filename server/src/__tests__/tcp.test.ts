@@ -53,7 +53,7 @@ test("TCP server test with client/server chat", async () => {
     const client = new net.Socket();
 
     const logger = winston.createLogger({
-        level: "debug",
+        level: "warn",
         transports: [
           new winston.transports.Console(),
         ],
