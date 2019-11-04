@@ -48,6 +48,7 @@ export class AuthProvider {
         const hash = await bcrypt.hash(args.password1, 10);
         this.passwords.set(args.userName, hash);
         this.users.set(args.userName, user);
+        await ctx.session_manager.find_or_store(user, ctx);
         return await this.jwt_sign(user, ctx);
     }
 
