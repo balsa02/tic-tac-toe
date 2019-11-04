@@ -45,12 +45,12 @@ export const resolvers = (): any => {
                             }
                         }
                         if (!inMatch) {
-                            await ctx.lobby.entry(ctx);
+                            await ctx.lobby.entry_user(ctx.session.user, ctx);
                         }
                         return withCancel(
-                            ctx.pubsub.asyncIterator<Invite|Ping|Reject>("user." + ctx.session.user.userName),
+                            ctx.pubsub.asyncIterator<{inbox: Invite|Ping|Reject}>("user." + ctx.session.user.userName),
                             async () => {
-                                await ctx.lobby.exit(ctx);
+                                await ctx.lobby.exit_user(ctx.session.user, ctx, false);
                             },
                         );
                     }
