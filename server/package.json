@@ -28,7 +28,7 @@
     "apollo-link-ws": "^1.0.19",
     "apollo-server": "^2.9.4",
     "apollo-server-hapi": "^2.9.4",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "faker": "^4.1.0",
     "graphql": "^14.5.8",
     "graphql-merge-resolvers": "^1.1.12",
